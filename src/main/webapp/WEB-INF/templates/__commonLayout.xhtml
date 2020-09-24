@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:insert name="metadata" />
+
+<h:head>
+	<title><ui:insert name="title">Main page</ui:insert></title>
+	<h:outputScript name="locale-primefaces.js" library="js" />
+</h:head>
+
+
+<h:body>
+	<style>
+.container {
+	width: 100vw;
+	height: 100vh;
+	background: #F5F5F5;
+	/* 	display: flex; */
+	/* 	flex-direction: center; */
+	/* 	justify-content: center; */
+	/* 	align-items: auto;  */
+}
+
+.colorbackground {
+	/* 	background-color: #007AD9; */
+	/* 	/* 	background: #007ad9; */
+	
+}
+
+.colorBranco {
+	color: #fff;
+	/* 	background: #007ad9; */
+}
+
+/* .ui-panel, div.ui-state-hover { */
+/* 	margin: 10px; */
+/* 	width: 200px; */
+/* } */
+.ui-dashboard-column { */
+	/* 	width: 220px; */ */
+	
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+/* form .ui-inputgroup { */
+/* 	margin-bottom: 1vw; */
+/* } */
+.fa-home:before {
+	/* encontra-se content em https://astronautweb.co/snippet/font-awesome/ */
+	/*    content: "\f015"; */
+	color: #fff;
+}
+
+/* .fa-plus:before { */
+/* 	color: #fff; */
+/* } */
+.fa-group:before {
+	color: #fff;
+}
+
+.fa-files-o:before {
+	color: #fff;
+}
+</style>
+	<div class="container">
+		<ui:debug hotkey="z" />
+		<!-- Ctrl + Shift + z -->
+
+		<div id="header">
+			<div class="ui-g ui-fluid">
+				<div class="ui-g-1 ui-md-1"></div>
+				<div class="ui-g-12 ui-md-12">
+					<ui:insert name="header">
+						<!-- https://www.primefaces.org/showcase/ui/menu/menubar.xhtml -->
+						<h:form id="formMenu">
+							<p:menubar style="background: #007ad9" id="xmenu">
+
+								<p:menuitem style="font-size: 3em" id="menuHome"
+									outcome="/paginas/protegido/index.xhtml"
+									icon="fa fa-fw fa-home" />
+
+								<p:submenu style="font-size: 3em" id="submenuProjeto"
+									icon="fa fa-fw fa-files-o">
+									<p:menuitem id="submenuProjetoItemMain"
+										value="Localizar Projetos..."
+										outcome="/paginas/protegido/projeto/index.xhtml"
+										icon="fa fa-fw fa-search" />
+									<p:menuitem id="submenuProjetoItemAddProjeto"
+										value="Adicionar Projeto..."
+										outcome="/paginas/protegido/projeto/admin/projeto_edit.xhtml"
+										icon="fa fa-fw fa-plus" />
+									<p:menuitem id="submenuProjetoItemAddTipoDeProjeto"
+										value="Adicionar Tipo de Projeto..."
+										outcome="/paginas/protegido/tipoDeProjeto/admin/tipoDeProjeto_edit.xhtml"
+										icon="fa fa-fw fa-plus" />
+								</p:submenu>
+
+								<p:submenu style="font-size: 3em" id="submenuUsuario"
+									icon="fa fa-fw fa-group">
+									<p:menuitem id="submenuUsuarioItemMain"
+										value="Localizar Usuários..."
+										outcome="/paginas/protegido/usuario/index.xhtml"
+										icon="fa fa-fw fa-search" />
+									<p:menuitem id="submenuProjetoItemAddUsuario"
+										value="Adicionar Usuario..."
+										outcome="/paginas/protegido/usuario/admin/user_edit.xhtml"
+										icon="fa fa-fw fa-plus" />
+								</p:submenu>
+
+
+
+								<f:facet name="options">
+									<div class="ui-g-1 ui-md-1"></div>
+									<p:commandButton style="font-size: 2em" id="menuItemLogout"
+										value="Logout" icon="fa fa-fw fa-sign-out"
+										action="#{logout.efetuarLogout}">
+										<p:confirm header="Confirmação!"
+											message="Do you really want to logout?" icon="ui-icon-alert" />
+									</p:commandButton>
+								</f:facet>
+							</p:menubar>
+						</h:form>
+
+						<ui:include
+							src="/WEB-INF/templates/_usuario_change_own_password.xhtml" />
+						<ui:include src="/WEB-INF/templates/_usuario_details.xhtml" />
+					</ui:insert>
+
+				</div>
+				<div class="ui-g-12 ui-md-12"></div>
+				<div id="content">
+					<p:growl id="idMessages" showDetail="true" severity="info">
+						<p:autoUpdate />
+					</p:growl>
+
+					<p:growl id="idMessagesErrors" showDetail="true" severity="error"
+						sticky="true">
+						<p:autoUpdate />
+					</p:growl>
+
+					<p:confirmDialog id="confirmDialog" global="true" showEffect="fade"
+						hideEffect="fade">
+						<p:commandButton id="confirmYes" value="Yes"
+							styleClass="ui-confirmdialog-yes" icon="fa fa-remove" />
+						<p:commandButton id="confirmNo" value="No"
+							styleClass="ui-confirmdialog-no" icon="fa fa-ban" />
+					</p:confirmDialog>
+
+					<ui:insert name="content" />
+				</div>
+			</div>
+
+		</div>
+	</div>
+</h:body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/__commonLayout.xhtml">
+
+	<!-- How to pass parameter to JSF 2.x template file: -->
+	<!-- https://www.mkyong.com/jsf2/how-to-pass-parameters-to-jsf-2-0-template-file/ -->
+
+
+	<ui:define name="title">
+		Manage TipoDeProjeto
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:fieldset legend="Filtros">
+
+			<h:form id="formFilter">
+
+				<p:panelGrid columns="6" styleClass="ui-noborder">
+					<f:facet name="header">TipoDeProjeto</f:facet>
+
+
+					<p:outputLabel value="Tipo: " for="itTipoFilter" />
+					<p:inputText id="itTipoFilter"
+						value="#{manageTipoDeProjeto.tipoDeProjetoFilter.tipo}"
+						label="Tipo" style="width:200px" />
+
+					<p:outputLabel value="Descricao: " for="itDescricaoFilter" />
+					<p:inputText id="itDescricaoFilter"
+						value="#{manageTipoDeProjeto.tipoDeProjetoFilter.descricao}" label="Descricao"
+						style="width:200px" />
+
+
+				</p:panelGrid>
+				<p:commandButton id="btnFiltrarBotao" value="Search"
+					action="#{manageTipoDeProjeto.filtrar()}"
+					update=":formFilter :dataTableTipoDeProjeto" icon="fa fa-search" />
+				<p:commandButton id="btnLimparBotao" value="Clean"
+					action="#{manageTipoDeProjeto.limpar()}" update=":formFilter"
+					process="@this" icon="fa fa-remove">
+
+				</p:commandButton>
+
+			</h:form>
+		</p:fieldset>
+
+		<p:fieldset legend="Resultado">
+
+			<p:dataTable id="dataTableTipoDeProjeto" var="tipoDeProjeto"
+				value="#{manageTipoDeProjeto.tiposDeProjetos}"
+				emptyMessage="Nenhum registro encontrado." rows="5" paginator="true"
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<p:column headerText="ID" width="50">
+					<h:outputText value="#{tipoDeProjeto.id}" />
+				</p:column>
+				<!-- 				<p:column headerText="TipoDeProduto"> -->
+				<!-- 					<h:outputText value="#{produto.tipoDeProduto.nome}" /> -->
+				<!-- 				</p:column> -->
+				<p:column headerText="Tipo">
+					<h:outputText value="#{tipoDeProjeto.tipo}" />
+				</p:column>
+				<p:column headerText="Descrição">
+					<h:outputText value="#{tipoDeProjeto.descricao}" />
+				</p:column>
+							
+
+
+				<p:column headerText="Operações" width="150">
+					<p:link id="editarTipoDeProjeto"
+						outcome="/paginas/protegido/tipoDeProjeto/admin/tipoDeProjeto_edit.xhtml"
+						value="Editar TipoDeProjeto...">
+						<f:param name="tipoDeProjeto" value="#{tipoDeProjeto.id}" />
+					</p:link>
+					<p:tooltip id="toolTipEditarTipoDeProjeto" for="editarTipoDeProjeto"
+						value="Editar tipo de Projeto..." position="top" />
+
+
+					<p:commandButton id="deletarTipoDeProjeto" icon="fa fa-remove"
+						action="#{manageTipoDeProjeto.delete(tipoDeProjeto)}">
+						<p:confirm header="Confirmação!"
+							message="Deseja Deletar o Tipo de Projeto? '#{tipoDeProjeto.tipo} #{tipoDeprojeto.descricao}'?"
+							icon="fa fa-remove" />
+					</p:commandButton>
+					<p:tooltip id="toolTipDeletarTipoDeProjeto" for="deletarTipoDeProjeto"
+						value="Deletar" position="top" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+
+	</ui:define>
+
+</ui:composition>
+</html>

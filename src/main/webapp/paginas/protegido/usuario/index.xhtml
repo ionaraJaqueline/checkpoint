@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/__commonLayout.xhtml">
+
+	<!-- How to pass parameter to JSF 2.x template file: -->
+	<!-- https://www.mkyong.com/jsf2/how-to-pass-parameters-to-jsf-2-0-template-file/ -->
+
+
+	<ui:define name="title">
+		Manage Usuario
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:fieldset legend="Filtros">
+
+			<h:form id="formFilter">
+
+				<p:panelGrid columns="4" styleClass="ui-noborder">
+					<f:facet name="header">Usuario</f:facet>
+
+					<p:outputLabel value="Nome: " for="itNomeFilter" />
+					<p:inputText id="itNomeFilter"
+						value="#{manageUsuario.usuarioFilter.nome}" label="Nome"
+						style="width:200px" />
+
+<!-- 					<p:outputLabel value="Inicio Data De Aniversario: " -->
+<!-- 						for="itInicioDataDeAniversarioFilter" /> -->
+<!-- 					<ui:include src="/WEB-INF/templates/_date.xhtml"> -->
+<!-- 						<ui:param name="id" value="itInicioDataDeAniversarioFilter" /> -->
+<!-- 						<ui:param name="value" -->
+<!-- 							value="#{manageUsuario.usuarioFilter.inicioDataDeAniversario}" /> -->
+<!-- 						<ui:param name="label" value="Inicio Data De Aniversario" /> -->
+<!-- 						<ui:param name="style" value="width:105px" /> -->
+<!-- 					</ui:include> -->
+
+					<p:outputLabel value="SobreNome: " for="itSobreNomeFilter" />
+					<p:inputText id="itSobreNomeFilter"
+						value="#{manageUsuario.usuarioFilter.sobreNome}" label="SobreNome"
+						style="width:200px" />
+
+<!-- 					<p:outputLabel value="Fim Data De Aniversario: " -->
+<!-- 						for="itFimDataDeAniversarioFilter" /> -->
+<!-- 					<ui:include src="/WEB-INF/templates/_date.xhtml"> -->
+<!-- 						<ui:param name="id" value="itFimDataDeAniversarioFilter" /> -->
+<!-- 						<ui:param name="value" -->
+<!-- 							value="#{manageUsuario.usuarioFilter.fimDataDeAniversario}" /> -->
+<!-- 						<ui:param name="label" value="Fim Data De Aniversario" /> -->
+<!-- 						<ui:param name="style" value="width:105px" /> -->
+<!-- 					</ui:include> -->
+
+					<p:outputLabel value="Group:" for="group" />
+					<p:selectOneMenu id="group"
+						value="#{manageUsuario.usuarioFilter.group}" label="Group">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" />
+						<f:selectItems value="#{manageUsuario.getGroups()}" var="g"
+							itemLabel="#{g.nome}" itemValue="#{g}" />
+					</p:selectOneMenu>
+
+				</p:panelGrid>
+
+				<p:commandButton id="btnFiltrarBotao" value="Search"
+					action="#{manageUsuario.filtrar()}"
+					update=":formFilter :dataTableUsuario" icon="fa fa-search" />
+				<p:commandButton id="btnLimparBotao" value="Clean"
+					action="#{manageUsuario.limpar()}" update=":formFilter"
+					process="@this" icon="fa fa-remove">
+
+				</p:commandButton>
+
+			</h:form>
+		</p:fieldset>
+
+		<p:fieldset legend="Resultados">
+
+			<p:dataTable id="dataTableUsuario" var="usuario"
+				value="#{manageUsuario.usuario}"
+				emptyMessage="Nenhum registro encontrado." rows="5" paginator="true"
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<p:column headerText="ID" width="50">
+					<h:outputText value="#{usuario.id}" />
+				</p:column>
+				<p:column headerText="Group" width="120">
+					<h:outputText value="#{usuario.group.nome}" />
+				</p:column>
+				<p:column headerText="Login">
+					<h:outputText value="#{usuario.login}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{usuario.nome}" />
+				</p:column>
+				<p:column headerText="Sobre Nome">
+					<h:outputText value="#{usuario.sobreNome}" />
+				</p:column>
+<!-- 				<p:column headerText="Data De Aniversario" width="80"> -->
+<!-- 					<h:outputText value="#{usuario.dataDeAniversario}"> -->
+<!-- 						<f:convertDateTime pattern="dd/MM/yyyy" /> -->
+<!-- 					</h:outputText> -->
+<!-- 				</p:column> -->
+
+				<p:column headerText="Operations" width="180"
+					rendered="#{menu.isUsuarioInRole('ADMIN')}">
+					<p:link id="editUsuario"
+						outcome="/paginas/protegido/usuario/admin/user_edit.xhtml"
+						value="Edit Usuario...">
+						<f:param name="usuario" value="#{usuario.id}" />
+					</p:link>
+					<p:tooltip id="toolTipEditUsuario" for="editUsuario"
+						value="Edit usuario..." position="top" />
+
+					<p:button id="editUsuarioPassword"
+						outcome="/paginas/protegido/usuario/admin/user_edit_password.xhtml"
+						value="..." icon="fa fa-edit">
+						<f:param name="usuario" value="#{usuario.id}" />
+					</p:button>
+					<p:tooltip id="toolTipEditUsuarioPassword"
+						for="editUsuarioPassword" value="Password..." position="top" />
+
+					<p:commandButton id="deleteUsuario" icon="fa fa-remove"
+						action="#{manageUsuario.delete(usuario)}">
+						<p:confirm header="Confirmação!"
+							message="Do you want to delete '#{usuario.nome} #{usuario.sobreNome}'?"
+							icon="fa fa-remove" />
+					</p:commandButton>
+					<p:tooltip id="toolTipDeleteUsuario" for="deleteUsuario"
+						value="Delete" position="top" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+	</ui:define>
+</ui:composition>
+</html>

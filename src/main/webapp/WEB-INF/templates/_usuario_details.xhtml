@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition>
+
+	<p:dialog id="usuarioDetailsDialogId" widgetVar="usuarioDetailsDialog" header="Usuario details" modal="true" dynamic="true" closeOnEscape="true">
+	
+		<h:form id="formUserDetails">
+			<p:messages id="idMessagesErrorsUserDetails" showDetail="true" closable="true" severity="error">
+				<p:autoUpdate />
+			</p:messages>
+			
+			<p:panelGrid columns="2" styleClass="ui-noborder">
+			
+				<h:outputText value="Nome:" style="font-weight: bold;" />
+				<h:outputText value="#{usuarioDetails.usuarioDetalhes.nome}" />
+
+				<h:outputText value="Sobre Nome:" style="font-weight: bold;" />
+				<h:outputText value="#{usuarioDetails.usuarioDetalhes.sobreNome}" />
+
+				<h:outputText value="Data De Aniversario" style="font-weight: bold;" />
+				<h:outputText value="#{usuarioDetails.usuarioDetalhes.dataDeAniversario}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</h:outputText>
+
+				<h:outputText value="Cpf" style="font-weight: bold;" />
+				<h:outputText value="#{usuarioDetails.usuarioDetalhes.cpf}" />
+
+				<h:outputText value="Group:" style="font-weight: bold;" />
+				<h:outputText value="#{usuarioDetails.usuarioDetalhes.group.nome}" />
+
+				<h:outputText value="Login:" style="font-weight: bold;" />
+				<h:outputText value="#{usuarioDetails.usuarioDetalhes.login}" />
+			</p:panelGrid>
+		</h:form>
+	
+	</p:dialog>
+
+</ui:composition>
+
+</html>

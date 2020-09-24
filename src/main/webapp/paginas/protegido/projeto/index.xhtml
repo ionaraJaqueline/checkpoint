@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/__commonLayout.xhtml">
+
+	<!-- How to pass parameter to JSF 2.x template file: -->
+	<!-- https://www.mkyong.com/jsf2/how-to-pass-parameters-to-jsf-2-0-template-file/ -->
+
+
+	<ui:define name="title">
+		Listagem Projeto
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:fieldset legend="Filtros">
+
+<!-- 			<h:form> -->
+<!-- 				<h3>Basic</h3> -->
+<!-- 				<p:inputText /> -->
+
+<!-- 				<h3>Floating Label</h3> -->
+<!-- 				<span class="ui-float-label"> <p:inputText id="float-input" -->
+<!-- 						value="#{basicView.text}" /> <p:outputLabel for="@previous" -->
+<!-- 						value="Username" /> -->
+<!-- 				</span> -->
+
+<!-- 			</h:form> -->
+
+			<h:form id="formFilter">
+
+				<p:panelGrid columns="6"
+					columnClasses="ui-md-2, ui-md-4, ui-md-2, ui-md-4" layout="grid"
+					styleClass="ui-panelgrid-blank ui-fluid">
+					<!-- 				<p:panelGrid columns="6" styleClass="ui-noborder"> -->
+					<!-- 					<f:facet name="header">Projeto</f:facet> -->
+
+
+
+
+					<p:outputLabel value="Título do Projeto: " for="itNomeFilter" />
+					<p:inputText id="itNomeFilter"
+						value="#{manageProjeto.projetoFilter.nome}" label="Nome"
+						style="width:200px" />
+
+					<!-- 					<p:outputLabel value="Descricao: " for="itDescricaoFilter" /> -->
+					<!-- 					<p:inputText id="itDescricaoFilter" -->
+					<!-- 						value="#{manageProjeto.projetoFilter.descricao}" label="Descricao" -->
+					<!-- 						style="width:200px" /> -->
+
+					<!-- 					<p:outputLabel value="CargaHoraria " for="itCargaHorariaFilter" /> -->
+					<!-- 					<p:inputText id="itCargaHorariaFilter" -->
+					<!-- 						value="#{manageProjeto.projetoFilter.cargaHoraria}" -->
+					<!-- 						label="CargaHoraria" style="width:200px" /> -->
+
+					<p:outputLabel value="Data inicial do projeto: "
+						for="itDataInicialFilter" />
+					<ui:include src="/WEB-INF/templates/_date.xhtml">
+						<ui:param name="id" value="itDataInicialFilter" />
+						<ui:param name="value"
+							value="#{manageProjeto.projetoFilter.dataInicial}" />
+						<ui:param name="label" value="Data Inicial" />
+						<ui:param name="style" value="width:200px" />
+					</ui:include>
+
+
+
+					<p:outputLabel value="Data Final do projeto: "
+						for="itDataFinalFilter" />
+					<ui:include src="/WEB-INF/templates/_date.xhtml">
+						<ui:param name="id" value="itDataFinalFilter" />
+						<ui:param name="value"
+							value="#{manageProjeto.projetoFilter.dataFinal}" />
+						<ui:param name="label" value="Data Final" />
+						<ui:param name="style" value="width:200px" />
+					</ui:include>
+
+
+
+
+					<!-- 					<p:outputLabel value="Tipo De Produto:" for="tipoDeProduto" /> -->
+					<!-- 					<p:selectOneMenu id="tipoDeProduto" -->
+					<!-- 						value="#{manageProduto.produtoFilter.tipoDeProduto}" -->
+					<!-- 						label="TipoDeProduto"> -->
+					<!-- 						<f:selectItem itemLabel="Selecione" itemValue="#{null}" /> -->
+					<!-- 						<f:selectItems value="#{manageProduto.getTiposDeProdutos()}" -->
+					<!-- 							var="g" itemLabel="#{g.nome}" itemValue="#{g}" /> -->
+					<!-- 					</p:selectOneMenu> -->
+					<div class="ui-g-2 ui-md-2"></div>
+				</p:panelGrid>
+
+				<p:commandButton id="btnFiltrarBotao" value="Search"
+					action="#{manageProjeto.filtrar()}"
+					update=":formFilter :dataTableProjeto" icon="fa fa-search" />
+				<p:commandButton id="btnLimparBotao" value="Clean"
+					action="#{manageProjeto.limpar()}" update=":formFilter"
+					process="@this" icon="fa fa-remove">
+
+				</p:commandButton>
+
+			</h:form>
+		</p:fieldset>
+
+		<p:fieldset legend="Resultado">
+
+			<p:dataTable id="dataTableProjeto" var="projeto"
+				value="#{manageProjeto.projeto}"
+				emptyMessage="Nenhum registro encontrado." rows="5" paginator="true"
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<!-- 				<p:column headerText="ID" width="50"> -->
+				<!-- 					<h:outputText value="#{projeto.id}" /> -->
+				<!-- 				</p:column> -->
+
+				<p:column headerText="Título do Projeto">
+					<h:outputText value="#{projeto.nome}" />
+
+				</p:column>
+				<!-- 				<p:column headerText="Descrição"> -->
+				<!-- 					<h:outputText value="#{projeto.descricao}" /> -->
+				<!-- 				</p:column> -->
+				<!-- 				<p:column headerText="Carga Horária"> -->
+				<!-- 					<h:outputText value="#{projeto.cargaHoraria}" /> -->
+				<!-- 				</p:column> -->
+
+				<!-- 				<p:column headerText="Carga Horaria"> -->
+				<!-- 					<h:outputText value="#{projeto.cargaHoraria}"> -->
+				<!-- 						<f:convertDateTime pattern="00:00" /> -->
+				<!-- 					</h:outputText> -->
+				<!-- 				</p:column> -->
+
+				<p:column headerText="Data Inicial">
+					<h:outputText value="#{projeto.dataInicial}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Data Final">
+					<h:outputText value="#{projeto.dataFinal}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+
+				<p:column headerText="Operações" width="150">
+					<p:link id="editarProjeto"
+						outcome="/paginas/protegido/projeto/admin/projeto_edit.xhtml"
+						value="Editar Projeto...">
+						<f:param name="projeto" value="#{projeto.id}" />
+					</p:link>
+					<p:tooltip id="toolTipEditarProjeto" for="editarProjeto"
+						value="Editar projeto..." position="top" />
+
+
+					<p:commandButton id="deletarProjeto" icon="fa fa-remove"
+						action="#{manageProjeto.delete(projeto)}">
+						<p:confirm header="Confirmação!"
+							message="Deseja Deletar o Projeto? '#{projeto.nome} #{projeto.descricao}'?"
+							icon="fa fa-remove" />
+					</p:commandButton>
+					<p:tooltip id="toolTipDeletarProjeto" for="deletarProjeto"
+						value="Deletar" position="top" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+	</ui:define>
+
+</ui:composition>
+</html>

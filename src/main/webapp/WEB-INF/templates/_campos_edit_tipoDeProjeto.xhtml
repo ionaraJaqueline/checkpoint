@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<p:messages closable="true" />
+	<p:panelGrid columns="2" styleClass="ui-noborder">
+
+		<p:outputLabel value="Id:"
+			rendered="#{tipoDeProjetoEdit.edicaoDeTipoDeProjeto}" />
+		<p:outputLabel value="#{tipoDeProjetoEdit.tipoDeProjeto.id}"
+			rendered="#{tipoDeProjetoEditt.edicaoDeTipoDeProjeto}" />
+
+		<p:outputLabel for="tipo" value="Tipo:" />
+		<p:inputText id="tipo" value="#{tipoDeProjetoEdit.tipoDeProjeto.tipo}"
+			label="Tipo" />
+
+		<p:outputLabel for="descricao" value="Descricao:" />
+		<p:inputText id="descricao"
+			value="#{tipoDeProjetoEdit.tipoDeProjeto.descricao}"
+			label="Descricao" />
+
+
+
+
+
+	</p:panelGrid>
+</ui:composition>
+</html>

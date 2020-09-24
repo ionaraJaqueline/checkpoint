@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<title>Novo Usuário</title>
+</h:head>
+
+<f:metadata>
+	<f:viewAction action="#{criarUsuarioCliente.init()}" />
+</f:metadata>
+
+<h:body>
+
+	<p:growl id="idMessages" showDetail="true" severity="info">
+		<p:autoUpdate />
+	</p:growl>
+	<p:messages id="idMessagesErrors" showDetail="true" closable="true"
+		severity="error">
+		<p:autoUpdate />
+	</p:messages>
+
+
+	<style>
+.container {
+	width: 100vw;
+	height: 100vh;
+	background: #F5F5F5;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center
+}
+}
+</style>
+	<div class="container">
+
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-2 ui-md-2"></div>
+			<div class="ui-g-12 ui-md-12">
+				<h:form id="formCriarNovoUsuarioCliente">
+
+
+					<p:panelGrid columns="2" style="text-align:center; margin: auto;"
+						styleClass="ui-noborder">
+						<f:facet name="header">Usuario</f:facet>
+
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:inputText id="nome" value="#{criarUsuarioCliente.usuario.nome}"
+							label="Nome" />
+
+						<p:outputLabel for="login" value="Login:" />
+						<p:outputPanel>
+							<p:inputText id="login"
+								value="#{criarUsuarioCliente.usuario.login}" label="Login"
+								required="true" />
+							<!-- 								<p:commandButton id="checarDisponibilidadeLogin" -->
+							<!-- 									icon="fa fa-question" -->
+							<!-- 									process="@this formCriarNovoUsuarioCliente:login" -->
+							<!-- 									action="#{criarUsuarioCliente.checarDisponibilidadeLogin()}" /> -->
+						</p:outputPanel>
+
+						<p:outputLabel for="password" value="Password:" />
+						<p:password id="password"
+							value="#{criarUsuarioCliente.usuario.password}" label="Password"
+							match="confirmacaoPassword" feedback="true" required="true" />
+
+						<p:outputLabel for="confirmacaoPassword" value="Confirm Password:" />
+						<p:password id="confirmacaoPassword"
+							value="#{criarUsuarioCliente.usuario.password}"
+							label="Confirm Password" feedback="true" required="true" />
+
+						<p:commandButton id="botaoSubmeter"
+							action="#{criarUsuarioCliente.saveUsuario}" value="Submit"
+							icon="pi pi-save" />
+						<p:button id="botaoCancelar"
+							outcome="/paginas/protegido/usuario/index.xhtml?faces-redirect=true"
+							value="Cancel" icon="pi pi-times" />
+
+					</p:panelGrid>
+
+				</h:form>
+			</div>
+			<div class="ui-g-2 ui-md-2"></div>
+		</div>
+	</div>
+</h:body>
+</html>

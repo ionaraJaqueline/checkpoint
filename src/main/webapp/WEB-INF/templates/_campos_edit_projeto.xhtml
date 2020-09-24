@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<p:messages closable="true" showDetail="true" />
+
+
+
+
+	<p:fieldset legend="Cadastrar Projeto">
+		<h:form id="formFilter">
+
+
+			<p:panelGrid columns="6" styleClass="ui-panelgrid-blank ui-fluid">
+
+				<!-- 				<p:panelGrid columns="6" -->
+				<!-- 					columnClasses="ui-md-1, ui-md-2, ui-md-1, ui-md-2" layout="grid" -->
+				<!-- 					styleClass="ui-panelgrid-blank ui-fluid"> -->
+
+
+				<!-- 					<p:panelGrid columns="8" layout="grid" -->
+				<!-- 						styleClass="ui-panelgrid-blank ui-fluid"> -->
+
+
+				<!-- 				<f:facet name="header">Projeto</f:facet> -->
+
+				<p:outputLabel value="Id:" rendered="#{projetoEdit.edicaoDeProjeto}" />
+				<p:outputLabel value="#{projetoEdit.projeto.id}"
+					rendered="#{projetoEdit.edicaoDeProjeto}" />
+
+				<p:outputLabel for="nome" value="Nome:" />
+				<p:inputText id="nome" value="#{projetoEdit.projeto.nome}"
+					label="Nome" />
+
+				<p:outputLabel for="descricao" value="Descricao:" />
+				<p:inputText id="descricao" value="#{projetoEdit.projeto.descricao}"
+					label="Descricao" />
+
+				<p:outputLabel for="cargaHora" value="Carga Horaria:" />
+				<p:inputText id="cargaHora"
+					value="#{projetoEdit.projeto.cargaHoraria}" label="CargaHoraria" />
+
+				<p:outputLabel for="dataInicial" value="Data Inicial:" />
+				<ui:include src="/WEB-INF/templates/_date.xhtml">
+					<ui:param name="id" value="dataInicial" />
+					<ui:param name="value" value="#{projetoEdit.projeto.dataInicial}" />
+					<ui:param name="label" value="DataInicial" />
+					<ui:param name="required" value="#{true}" />
+				</ui:include>
+
+				<p:outputLabel for="dataFinal" value="Data Final:" />
+				<ui:include src="/WEB-INF/templates/_date.xhtml">
+					<ui:param name="id" value="dataFinal" />
+					<ui:param name="value" value="#{projetoEdit.projeto.dataFinal}" />
+					<ui:param name="label" value="DataFinal" />
+					<ui:param name="required" value="#{true}" />
+				</ui:include>
+
+<!-- 				<p:outputLabel for="usuario" value="Colaborador: " /> -->
+<!-- 				<p:selectOneMenu id="usuario" value="#{projetoEdit.projeto.usuario}" -->
+<!-- 					label="usuario" filter="true" filterMatchMode="contains" -->
+<!-- 					required="true"> -->
+<!-- 					<f:selectItem itemLabel="Selecione" itemValue="#{null}" -->
+<!-- 						noSelectionOption="true" itemDisabled="true" /> -->
+<!-- 					<f:selectItems value="#{projetoEdit.usuarios}" var="s" -->
+<!-- 						itemLabel="#{s.nome}" itemValue="#{s}" /> -->
+<!-- 				</p:selectOneMenu> -->
+
+				<p:outputLabel for="tipoDeProjeto" value="Tipo de Projeto: " />
+				<p:selectOneMenu id="tipoDeProjeto"
+					value="#{projetoEdit.projeto.tipoDeProjeto}" label="tipoDeProjeto"
+					filter="true" filterMatchMode="contains" required="true">
+					<f:selectItem itemLabel="Selecione" itemValue="#{null}"
+						noSelectionOption="true" itemDisabled="true" />
+					<f:selectItems value="#{projetoEdit.tiposDeProjetos}" var="s"
+						itemLabel="#{s.tipo}" itemValue="#{s}" />
+				</p:selectOneMenu>
+
+				<!-- 		<p:commandButton id="btnAdicionarNaTabela" value="Adicionar" -->
+				<!-- 			action="#{projetoEdit.carregarProdutosSelecionados()}" -->
+				<!-- 			icon="fa fa-fw fa-plus-circle" update="formEdit" /> -->
+
+
+				<!-- 		<p:outputLabel for="tipoDeProduto" value="Tipo De Produto:" /> -->
+				<!-- 		<p:selectOneMenu id="tipoDeProduto" -->
+				<!-- 			value="#{produtoEdit.produto.tipoDeProduto}" label="TipoDeProduto" -->
+				<!-- 			required="true"> -->
+				<!-- 			<f:selectItem itemLabel="Selecione" itemValue="#{null}" -->
+				<!-- 				itemDisabled="true" /> -->
+				<!-- 			<f:selectItems value="#{produtoEdit.getTiposDeProdutos()}" var="g" -->
+				<!-- 				itemLabel="#{g.nome}" itemValue="#{g}" /> -->
+				<!-- 		</p:selectOneMenu> -->
+
+
+
+			</p:panelGrid>
+		</h:form>
+	</p:fieldset>
+
+</ui:composition>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<!-- <ui:composition> -->
+
+
+
+<p:growl id="growl" sticky="true" showDetail="true" />
+
+<style>
+.container {
+	/* 	width: 100vw; */
+	/* 	height: 100vh; */
+	/* 	background: #F5F5F5; */
+	/* 	display: flex; */
+	/* 	flex-direction: center; */
+	justify-content: center;
+	align-items: auto;
+}
+</style>
+
+
+<!-- <div class="container"> -->
+	<p:wizard>
+		<p:tab id="cadastro" title="Cadastro">
+
+			<p:panel header="Informações de cadastro">
+				<p:messages closable="true" />
+				<!-- 				<p:panelGrid columns="2" styleClass="ui-noborder"> -->
+				<p:panelGrid columns="2" styleClass="ui-panelgrid-blank ui-fluid ">
+
+					<p:outputLabel for="group" value="Group:" />
+					<p:selectOneMenu id="group" value="#{usuarioEdit.usuario.group}"
+						label="Group" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}"
+							itemDisabled="true" />
+						<f:selectItems value="#{usuarioEdit.getGroups()}" var="g"
+							itemLabel="#{g.nome}" itemValue="#{g}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="login" value="Login:" />
+					<p:outputPanel>
+						<p:inputText id="login" value="#{usuarioEdit.usuario.login}"
+							label="Login" required="true" />
+
+					</p:outputPanel>
+
+					<p:outputLabel for="password" value="Password:"
+						rendered="#{!usuarioEdit.edicaoDeUsuario}" />
+					<p:password id="password" value="#{usuarioEdit.usuario.password}"
+						label="Password" required="true"
+						rendered="#{!usuarioEdit.edicaoDeUsuario}"
+						match="confirmacaoPassword" feedback="true" />
+
+					<p:outputLabel for="confirmacaoPassword" value="Confirm Password:"
+						rendered="#{!usuarioEdit.edicaoDeUsuario}" />
+					<p:password id="confirmacaoPassword"
+						value="#{usuarioEdit.usuario.password}" label="Confirm Password"
+						required="true" rendered="#{!usuarioEdit.edicaoDeUsuario}"
+						feedback="true" />
+
+				</p:panelGrid>
+			</p:panel>
+		</p:tab>
+
+		<p:tab id="pessoal" title="Pessoal">
+			<p:panel header="Detalhes pessoais">
+				<p:messages />
+				<p:panelGrid columns="2" styleClass="ui-noborder">
+
+					<p:outputLabel value="Id:"
+						rendered="#{usuarioEdit.edicaoDeUsuario}" />
+					<p:outputLabel value="#{usuarioEdit.usuario.id}"
+						rendered="#{usuarioEdit.edicaoDeUsuario}" />
+
+					<p:outputLabel for="nome" value="Nome:" />
+					<p:inputText id="nome" value="#{usuarioEdit.usuario.nome}"
+						label="Nome" required="true" />
+
+					<p:outputLabel for="sobreNome" value="Sobre Nome:" />
+					<p:inputText id="sobreNome"
+						value="#{usuarioEdit.usuario.sobreNome}" label="SobreNome" />
+
+					<!-- 								<p:outputLabel for="cpf" value="Cpf:" /> -->
+					<!-- 								<p:inputMask id="cpf" value="#{usuarioEdit.usuario.cpf}" -->
+					<!-- 									label="Cpf" mask="999.999.999-99" /> -->
+
+					<!-- 								<p:outputLabel for="salario" value="Salario:" -->
+					<!-- 									rendered="#{usuarioEdit.isFuncionario()}" /> -->
+					<!-- 								<p:inputText id="salario" value="#{usuarioEdit.usuario.salario}" -->
+					<!-- 									label="Salario" required="true" -->
+					<!-- 									rendered="#{usuarioEdit.isFuncionario()}" /> -->
+
+					<!-- 								<p:outputLabel for="dataDeAniversario" -->
+					<!-- 									value="DataDeAniversario:" -->
+					<!-- 									rendered="#{usuarioEdit.isCliente()}" /> -->
+					<!-- 								<ui:param name="rendered" value="#{usuarioEdit.isCliente()}" /> -->
+					<!-- 								<ui:param name="id" value="dataDeAniversario" /> -->
+					<!-- 								<ui:param name="value" -->
+					<!-- 									value="#{usuarioEdit.usuario.dataDeAniversario}" /> -->
+					<!-- 								<ui:param name="label" value="DataDeAniversario" /> -->
+					<!-- 								<ui:param name="required" value="#{true}" /> -->
+					<!-- 								<ui:include src="/WEB-INF/templates/_date.xhtml" /> -->
+
+				</p:panelGrid>
+			</p:panel>
+		</p:tab>
+
+		<p:tab id="endereco" title="Endereço">
+			<p:panel header="Detalhes de endereço">
+				<p:messages />
+				<p:panelGrid columns="2" styleClass="ui-noborder">
+
+					<p:outputLabel for="rua" value="Rua:" />
+					<p:inputText id="rua" label="Rua"
+						value="#{usuarioEdit.usuario.endereco.rua}" required="true" />
+
+					<p:outputLabel for="numero" value="Número:" />
+					<p:inputText id="numero" label="Numero"
+						value="#{usuarioEdit.usuario.endereco.numero}" required="true" />
+
+					<p:outputLabel for="bairro" value="Bairro: " />
+					<p:inputText id="bairro" label="Bairro"
+						value="#{usuarioEdit.usuario.endereco.bairro}" required="true" />
+
+					<p:outputLabel for="cep" value="CEP:" />
+					<p:inputMask id="cep" label="Cep"
+						value="#{usuarioEdit.usuario.endereco.cep}" mask="99999-999" />
+				</p:panelGrid>
+			</p:panel>
+		</p:tab>
+
+
+
+		<p:tab id="confirmacao" title="Confirmação dos dados">
+			<p:panel header="Confira os seus dados">
+				<p:panelGrid columns="4" styleClass="ui-noborder"
+					columnClasses="grid, grid, grid, grid">
+					<p:panelGrid columns="2" columnClasses="label, value">
+						<p:outputLabel for="nome" value="Nome:" />
+						<p:outputLabel value="#{usuarioEdit.usuario.nome}"
+							styleClass="outputlabel"></p:outputLabel>
+
+						<p:outputLabel for="sobreNome" value="Sobre Nome:" />
+						<p:outputLabel value="#{usuarioEdit.usuario.sobreNome}"
+							styleClass="outputlabel"></p:outputLabel>
+
+
+					</p:panelGrid>
+
+					<p:panelGrid columns="2" styleClass="ui-noborder"
+						columnClasses="label, value">
+
+						<p:outputLabel for="rua" value="Rua:" />
+						<p:outputLabel value="#{usuarioEdit.usuario.endereco.rua}"
+							styleClass="outputlabel"></p:outputLabel>
+
+						<p:outputLabel for="numero" value="Número:" />
+						<p:outputLabel value="#{usuarioEdit.usuario.endereco.numero}"
+							styleClass="outputlabel"></p:outputLabel>
+
+						<p:outputLabel for="bairro" value="Bairro:" />
+						<p:outputLabel value="#{usuarioEdit.usuario.endereco.bairro}"
+							styleClass="outputlabel"></p:outputLabel>
+
+						<p:outputLabel for="cep" value="CEP:" />
+						<p:outputLabel value="#{usuarioEdit.usuario.endereco.cep}"
+							styleClass="outputlabel"></p:outputLabel>
+
+					</p:panelGrid>
+
+
+
+					<p:panelGrid columns="2" styleClass="ui-noborder"
+						columnClasses="label, value">
+
+						<p:outputLabel for="group" value="Grupo:" />
+						<p:outputLabel value="#{usuarioEdit.usuario.group}"
+							styleClass="outputlabel"></p:outputLabel>
+
+						<p:outputLabel for="login" value="Login:" />
+						<p:outputLabel value="#{usuarioEdit.usuario.login}"
+							styleClass="outputlabel"></p:outputLabel>
+
+						<p:outputLabel for="password" value="Password:" />
+						<p:outputLabel value="#{usuarioEdit.usuario.password}"
+							styleClass="outputlabel"></p:outputLabel>
+					</p:panelGrid>
+				</p:panelGrid>
+				<p:commandButton id="botaoSubmeter"
+					action="#{usuarioEdit.saveUsuario}" value="Submit" update="@form"
+					icon="fa fa-save" />
+				<p:button id="botaoCancelar"
+					outcome="/paginas/protegido/usuario/index.xhtml" value="Cancel"
+					icon="fa fa-remove" />
+			</p:panel>
+		</p:tab>
+	</p:wizard>
+<!-- </div> -->
+
+
+
+<!-- </ui:composition> -->
+</html>
